@@ -1,0 +1,26 @@
+{
+  "name": "mp-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sleepwalky/node-mentoring.git"
+  },
+  "author": "Aliaksandr Kleshchukevich <aliaksandr_kleshchukevich@epam.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sleepwalky/node-mentoring/issues"
+  },
+  "homepage": "https://github.com/sleepwalky/node-mentoring#readme",
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-register": "^6.26.0"
+  }
+}
