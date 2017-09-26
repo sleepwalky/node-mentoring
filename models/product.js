@@ -4,4 +4,6 @@ class Product {
   }
 }
 
-module.exports = Product;
+module.exports = {
+  Product
+};
