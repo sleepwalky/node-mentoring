@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "nodemon lib/index.js --exec babel-node",
+    "build": "babel lib -d dist",
+    "serve": "node dist/index.js"
   },
   "repository": {
     "type": "git",
@@ -18,9 +20,10 @@
   },
   "homepage": "https://github.com/sleepwalky/node-mentoring#readme",
   "devDependencies": {
-    "babel": "^6.23.0",
-    "babel-preset-es2015": "^6.24.1",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
     "babel-preset-stage-2": "^6.24.1",
-    "babel-register": "^6.26.0"
+    "babel-register": "^6.26.0",
+    "nodemon": "^1.12.1"
   }
 }
