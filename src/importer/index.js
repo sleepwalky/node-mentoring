@@ -1,5 +1,5 @@
 const DirWatcher = require('../dirwatcher');
-const csvToJson = require('../utilities/csvToJson');
+const csvToJson = require('../utils/csvToJson');
 const fs = require('fs');
 const path = require('path');
 const promisify = require('es6-promisify');
