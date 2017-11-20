@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/index.js --exec babel-node",
+    "start": "nodemon src/http-servers/echo-server.js --exec babel-node",
     "build": "babel src -d dist",
     "serve": "node dist/index.js",
     "debug": "node --nolazy --debug-brk=5858 dist/index.js"
