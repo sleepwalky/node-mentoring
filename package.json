@@ -28,7 +28,7 @@
     "nodemon": "^1.12.1"
   },
   "dependencies": {
-    "cookie-parser": "^1.4.3",
+    "cookie": "^0.3.1",
     "es6-promisify": "^5.0.0",
     "express": "^4.16.2",
     "lodash": "^4.17.4"
