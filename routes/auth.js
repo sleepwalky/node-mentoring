@@ -3,6 +3,8 @@ const router = express.Router();
 const _ = require('lodash');
 const jwt = require('jsonwebtoken');
 const config = require('../config');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 
 router.use(express.json());
 
@@ -18,6 +20,21 @@ const existedUsers = [
     password: 'simple'
   }
 ];
+
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    User.findOne({ username: username }, function (err, user) {
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+      if (!user.validPassword(password)) {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+      return done(null, user);
+    });
+  }
+));
 
 router.post('/', function (req, res) {
   const user = _.find(existedUsers, {
