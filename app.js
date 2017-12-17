@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const session = require('express-session');
 
 const productsRoute = require('./routes/products');
 const usersRoute = require('./routes/users');
@@ -9,6 +10,11 @@ const passportRoute = require('./routes/passport-auth');
 const cookieMiddleware = require('./middlewares/cookieMiddleware');
 const queryParserMiddleware = require('./middlewares/queryParserMiddleware');
 
+app.use(session({
+  resave: false,
+  saveUninitialized: true,
+  secret: 'hophey'
+}));
 app.use(cookieMiddleware);
 app.use(queryParserMiddleware);
 

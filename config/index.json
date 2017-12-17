@@ -1,4 +1,8 @@
 {
   "name": "NodeMP HW App",
-  "jwtSecret": "hopheylalaley"
+  "jwtSecret": "hopheylalaley",
+  "FACEBOOK_APP_ID": "532349833794866",
+  "FACEBOOK_APP_SECRET": "4189f1c0001006933f84b8c28d42ce51",
+  "TWITTER_KEY": "lsvpAUW3ugfTlwfBrHbyUaZAG",
+  "TWITTER_SECRET": "yugKLkTuSKBrcIYp4F6B5z4eyQL4ZN3h2I4iCVJO3shJRkFPbm"
 }
