@@ -6,6 +6,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const TwitterStrategy = require('passport-twitter').Strategy;
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const existedUsers = require('../data/users');
 const bodyparser = require('body-parser');
 
@@ -70,8 +71,31 @@ passport.use(new TwitterStrategy({
       console.log(profile);
       const newUser = {
         "id": profile.id,
-        // "name": profile.displayName,
         "token": token
+      };
+      existedUsers.push(newUser);
+      console.log(existedUsers);
+      return cb(null, newUser);
+    }
+  }
+));
+
+passport.use(new GoogleStrategy({
+  clientID: config.GOOGLE_ID,
+  clientSecret: config.GOOGLE_SECRET,
+  callbackURL: "http://localhost:8080/passport/google/return"
+},
+  function (accessToken, refreshToken, profile, cb) {
+    const user = _.find(existedUsers, {
+      id: profile.id
+    });
+    if (user) {
+      console.log(existedUsers);
+      return cb(null, user)
+    } else {
+      const newUser = {
+        "id": profile.id,
+        "token": accessToken
       };
       existedUsers.push(newUser);
       console.log(existedUsers);
@@ -124,6 +148,16 @@ passport.authenticate('twitter'));
 router.get('/twitter/return',
   passport.authenticate('twitter', { failureRedirect: '/twitter' }),
   function(req, res) {
+    res.redirect('/');
+  }
+);
+
+router.get('/google',
+passport.authenticate('google', { scope: ['profile'] }));
+
+router.get('/google/return',
+  passport.authenticate('google', { failureRedirect: '/google' }),
+  function (req, res) {
     res.redirect('/');
   }
 );
