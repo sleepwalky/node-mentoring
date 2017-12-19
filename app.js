@@ -1,14 +1,18 @@
 const express = require('express');
 const app = express();
+const mongoose = require('mongoose');
 const session = require('express-session');
 
 const productsRoute = require('./routes/products');
 const usersRoute = require('./routes/users');
 const authRoute = require('./routes/auth');
 const passportRoute = require('./routes/passport-auth');
+const citiesRoute = require('./routes/cities');
 
 const cookieMiddleware = require('./middlewares/cookieMiddleware');
 const queryParserMiddleware = require('./middlewares/queryParserMiddleware');
+
+const db = mongoose.connect('mongodb://heroku_dl347tzl:3dirrpbvob12eh69fkpi0akqb0@ds147497.mlab.com:47497/heroku_dl347tzl');
 
 app.use(session({
   resave: false,
@@ -26,5 +30,6 @@ app.use('/products', productsRoute);
 app.use('/users', usersRoute);
 app.use('/auth', authRoute);
 app.use('/passport', passportRoute);
+app.use('/cities', citiesRoute);
 
 module.exports = app;
