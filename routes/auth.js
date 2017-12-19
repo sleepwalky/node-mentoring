@@ -8,7 +8,6 @@ const existedUsers = require('../data/users');
 router.use(express.json());
 
 router.post('/', function (req, res) {
-  console.log('blab')
   const user = _.find(existedUsers, {
     login: req.body.login,
     password: req.body.password
@@ -24,7 +23,7 @@ router.post('/', function (req, res) {
       userId: user.id
     };
     const token = jwt.sign(payload, config.jwtSecret, {
-      expiresIn: 600
+      expiresIn: 1000
     });
     res.send(token);
   }

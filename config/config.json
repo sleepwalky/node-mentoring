@@ -1,0 +1,15 @@
+{
+  "development": {
+    "url": "postgres://lpwzytpytmwnwd:e4302d0c537e6db103b9ffdd6084dff6ba8f6bcd729d45b2ec13c5676eb74421@ec2-54-217-250-0.eu-west-1.compute.amazonaws.com:5432/d6uf58h36i5efr",
+    "dialect":"postgres",
+    "dialectOptions": {
+      "ssl": "true"
+    }
+  },
+  "test": {
+
+  },
+  "production": {
+
+  }
+}
