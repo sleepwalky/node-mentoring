@@ -2,8 +2,6 @@ const express = require('express');
 const City = require('../models/city');
 const router = express.Router();
 
-router.use(express.json());
-
 router.get('/', function (req, res) {
   City.count().exec(function (err, count) {
     const random = Math.floor(Math.random() * count)
@@ -21,9 +19,16 @@ router.get('/', function (req, res) {
 
 router.post('/', function (req, res) {
   const city = new City(req.body);
-  city.save();
-  res.status(201).send(city);
-})
+  if (city.validateSync()) {
+    const err = {
+      error: "Validation error"
+    };
+    res.status(400).send(err);
+  } else {
+    city.save();
+    res.status(201).send(city);
+  }
+});
 
 router.use('/:cityId', function(req, res, next) {
   City.findById(req.params.cityId, function (err, city) {
