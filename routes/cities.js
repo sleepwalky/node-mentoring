@@ -1,5 +1,5 @@
 const express = require('express');
-const City = require('../mongoModels/city');
+const City = require('../models/city');
 const router = express.Router();
 
 router.use(express.json());
@@ -44,9 +44,9 @@ router.route('/:cityId')
   })
   .put(function (req, res) {
     req.city.name = req.body.name;
-    req.city.descr = req.body.descr;
-    req.city.hours = req.body.hours;
-    req.city.type = req.body.type;
+    req.city.country = req.body.country;
+    req.city.capital = req.body.capital;
+    req.city.location = req.body.location;
     req.city.save(function (err) {
       if (err)
         res.status(500).send(err);
