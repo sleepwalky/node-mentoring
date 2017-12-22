@@ -1,0 +1,450 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: Hello World App
+# during dev, should point to your local machine
+host: localhost:8080
+# basePath prefixes all resource paths
+basePath: /
+#
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+tags:
+  - name: "products"
+    description: "this is products"
+  - name: "cities"
+    description: "this is cities"
+  - name: "users"
+    description: "this is users"
+paths:
+  /hello:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: hello_world
+    get:
+      description: Returns 'Hello' to the caller
+      # used as the method name of the controller
+      operationId: hello
+      parameters:
+        - name: name
+          in: query
+          description: The name of the person to whom to say hello
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/HelloWorldResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /swagger:
+    x-swagger-pipe: swagger_raw
+  /users:
+    x-swagger-router-controller: users
+    get:
+      tags:
+      - "users"
+      summary: "List all users"
+      operationId: "getUsers"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/User"
+        500:
+          description: "Error"
+    post:
+      tags:
+      - "users"
+      summary: "Add a new user"
+      operationId: "addUser"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "User object that needs to be added to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        500:
+          description: "Error"
+  /users/{userId}:
+    x-swagger-router-controller: users
+    get:
+      tags:
+      - "users"
+      summary: "Find user by ID"
+      description: "Returns a single user"
+      operationId: "getUserById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userId"
+        in: "path"
+        description: "ID of user to return"
+        required: true
+        type: string
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/User"
+        500:
+          description: "Error"
+    put:
+      tags:
+      - "users"
+      summary: "Update an existing user"
+      operationId: "updateUser"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userId"
+        in: "path"
+        description: "ID of user to return"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "User object that needs to be added"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        404:
+          description: "User not found"
+        500:
+          description: "Just a mistake"
+    delete:
+      tags:
+      - "users"
+      summary: "Deletes a user"
+      operationId: "deleteUser"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userId"
+        in: "path"
+        description: "User id to delete"
+        required: true
+        type: string
+      responses:
+        204:
+          description: "Removed"
+        500:
+          description: "Error"
+  /cities:
+    x-swagger-router-controller: cities
+    get:
+      tags:
+      - "cities"
+      summary: "Returns random city"
+      operationId: "getCity"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/City"
+        500:
+          description: "Error"
+    post:
+      tags:
+      - "cities"
+      summary: "Add a new city"
+      operationId: "addCity"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "City object that needs to be added to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/City"
+      responses:
+        500:
+          description: "Error"
+  /cities/{cityId}:
+    x-swagger-router-controller: cities
+    get:
+      tags:
+      - "cities"
+      summary: "Find city by ID"
+      description: "Returns a single city"
+      operationId: "getCityById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "cityId"
+        in: "path"
+        description: "ID of city to return"
+        required: true
+        type: string
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/City"
+        500:
+          description: "Error"
+    put:
+      tags:
+      - "cities"
+      summary: "Update an existing city"
+      operationId: "updateCity"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "cityId"
+        in: "path"
+        description: "ID of city to return"
+        required: true
+        type: string
+      - in: "body"
+        name: "body"
+        description: "City object that needs to be added"
+        required: true
+        schema:
+          $ref: "#/definitions/City"
+      responses:
+        404:
+          description: "City not found"
+        500:
+          description: "Just a mistake"
+    delete:
+      tags:
+      - "cities"
+      summary: "Deletes a city"
+      operationId: "deleteCity"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "cityId"
+        in: "path"
+        description: "City id to delete"
+        required: true
+        type: string
+      responses:
+        204:
+          description: "Removed"
+        500:
+          description: "Error"
+  /products:
+    x-swagger-router-controller: products
+    get:
+      tags:
+      - "products"
+      summary: "List all products"
+      operationId: "getProducts"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Product"
+        500:
+          description: "Error"
+    post:
+      tags:
+      - "products"
+      summary: "Add a new product"
+      operationId: "addProduct"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Product object that needs to be added to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/Product"
+      responses:
+        500:
+          description: "Error"
+  /products/{productId}:
+    x-swagger-router-controller: products
+    get:
+      tags:
+      - "products"
+      summary: "Find product by ID"
+      description: "Returns a single product"
+      operationId: "getProductById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "productId"
+        in: "path"
+        description: "ID of product to return"
+        required: true
+        type: string
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Product"
+        500:
+          description: "Error"
+    put:
+      tags:
+      - "products"
+      summary: "Update an existing product"
+      operationId: "updateProduct"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "productId"
+        in: "path"
+        description: "ID of product to return"
+        required: true
+        type: string
+      - in: "body"
+        name: "body"
+        description: "Product object that needs to be added"
+        required: true
+        schema:
+          $ref: "#/definitions/Product"
+      responses:
+        404:
+          description: "Product not found"
+        500:
+          description: "Just a mistake"
+    delete:
+      tags:
+      - "products"
+      summary: "Deletes a product"
+      operationId: "deleteProduct"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "productId"
+        in: "path"
+        description: "Product id to delete"
+        required: true
+        type: string
+      responses:
+        204:
+          description: "Removed"
+        500:
+          description: "Error"
+
+# complex objects have schema definitions
+definitions:
+  HelloWorldResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+  Product:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      name:
+        type: "string"
+      brand:
+        type: "string"
+      price:
+        type: "string"
+    example:
+      price: "price"
+      name: "name"
+      id: 0
+      brand: "brand"
+  User:
+    type: "object"
+    required:
+    - "email"
+    - "name"
+    properties:
+      id:
+        type: "string"
+      name:
+        type: "string"
+        example: "doggie"
+      email:
+        type: "string"
+        example: "mail@google.com"
+    example:
+      name: "doggie"
+      id: 0
+      email: "mail@google.com"
+  City:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      country:
+        type: "string"
+        example: "BY"
+      name:
+        type: "string"
+        example: "Minsk"
+      capital:
+        type: "boolean"
+        example: true
+      location:
+        $ref: "#/definitions/City_location"
+    example:
+      country: "BY"
+      capital: true
+      name: "Minsk"
+      location:
+        lat: 52
+        long: 72
+      id: 0
+  City_location:
+    properties:
+      lat:
+        type: "number"
+        example: 52
+      long:
+        type: "number"
+        example: 72
+    example:
+      lat: 52
+      long: 72
